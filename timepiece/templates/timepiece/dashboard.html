@@ -162,6 +162,9 @@
                         <thead>
                             <tr>
                                 <th>Project</th>
+                                <th>Epic</th>
+                                <th>U.S.</th>
+                                <th>Task</th>
                                 <th class="hidden-phone">Activity</th>
                                 <th>From</th>
                                 <th>To</th>
@@ -190,6 +193,9 @@
                                             {% endif %}
                                             {{ entry.project }}
                                         </td>
+                                        <td class="hidden-phone">{{ entry.project.epic }}</td>
+                                        <td class="hidden-phone">{{ entry.project.user_story }}</td>
+                                        <td class="hidden-phone">{{ entry.project.user_story.task }}</td>
                                         <td class="hidden-phone">{{ entry.activity.name }}</td>
                                         <td class="nowrap">{{ entry.start_time|time }}</td>
                                         <td class="nowrap">

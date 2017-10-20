@@ -9,7 +9,7 @@ from timepiece.utils.search import SearchForm
 from timepiece.crm.lookups import (
     BusinessLookup, ProjectLookup, UserLookup, QuickLookup)
 from timepiece.crm.models import (
-    Attribute, Business, Project, ProjectRelationship)
+    Attribute, Business, Project, TeamMember)
 
 
 class CreateEditBusinessForm(forms.ModelForm):
@@ -48,14 +48,14 @@ class CreateUserForm(UserCreationForm):
         return user
 
 
-class EditProjectRelationshipForm(forms.ModelForm):
+class EditTeamMemberForm(forms.ModelForm):
 
     class Meta:
-        model = ProjectRelationship
-        fields = ('types',)
+        model = TeamMember
+        fields = ('role',)
 
     def __init__(self, *args, **kwargs):
-        super(EditProjectRelationshipForm, self).__init__(*args, **kwargs)
+        super(EditTeamMemberForm, self).__init__(*args, **kwargs)
         self.fields['types'].widget = forms.CheckboxSelectMultiple(
             choices=self.fields['types'].choices)
 
@@ -148,7 +148,7 @@ class SelectProjectForm(forms.Form):
 
 class SelectUserForm(forms.Form):
     user = selectable.AutoCompleteSelectField(UserLookup, label='')
-    user.widget.attrs['placeholder'] = 'Add User'
+    user.widget.attrs['placeholder'] = 'Add Team Member'
 
     def get_user(self):
         return self.cleaned_data['user'] if self.is_valid() else None

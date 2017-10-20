@@ -72,19 +72,19 @@
 
         <div class="span4 offset2">
             {% url 'view_project' object.id as next_url %}
-            <h3>Users</h3>
+            <h3>Team Members</h3>
             <ul class="users">
-                {% for user in object.users.all %}
+                {% for member in team.members.all %}
                     <li>
-                        {{ user.get_name_or_username }}
+                        {{ member.user.get_name_or_username }}
                         {% if perms.crm.change_projectrelationship %}
-                            {% with caption="Edit "|add:user.get_name_or_username|add:"'s relationship to "|add:object.name %}
-                                <a title="{{ caption }}" href="{% url 'edit_relationship' %}?project_id={{ object.id}}&user_id={{ user.id }}&next={{ next_url|add_parameters:request.GET|urlencode }}"><i alt="{{ caption }}" class="icon-pencil"></i></a>
+                            {% with caption="Edit "|add:member.user.get_name_or_username|add:"'s relationship to "|add:object.name %}
+                                <a title="{{ caption }}" href="{% url 'edit_relationship' %}?project_id={{ object.id}}&user_id={{ member.user.id }}&next={{ next_url|add_parameters:request.GET|urlencode }}"><i alt="{{ caption }}" class="icon-pencil"></i></a>
                             {% endwith %}
                         {% endif %}
                         {% if perms.crm.delete_projectrelationship %}
-                            {% with caption="Remove "|add:user.get_name_or_username|add:" from "|add:object.name %}
-                                <a title="{{ caption }}" href="{% url 'delete_relationship' %}?project_id={{ object.id }}&user_id={{ user.id }}&next={{ next_url|add_parameters:request.GET|urlencode }}"><i alt="{{ caption }}" class="icon-remove"></i></a>
+                            {% with caption="Remove "|add:member.user.get_name_or_username|add:" from "|add:object.name %}
+                                <a title="{{ caption }}" href="{% url 'delete_relationship' %}?project_id={{ object.id }}&user_id={{ member.user.id }}&next={{ next_url|add_parameters:request.GET|urlencode }}"><i alt="{{ caption }}" class="icon-remove"></i></a>
                             {% endwith %}
                         {% endif %}
                     </li>

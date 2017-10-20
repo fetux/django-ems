@@ -1,8 +1,9 @@
-django-timepiece
+django-ems
 ================
 
-django-timepiece is a multi-user application for tracking people's time on
-projects. Documentation is available on `Read The Docs`_.
+django-ems is a multi-user application for tracking people's time on software
+projects.
+django-ems is based on django-timepiece. Documentation of django-timepiece is available on `Read The Docs`_.
 
 :master: |master-status|
 :develop: |develop-status|
@@ -17,8 +18,15 @@ projects. Documentation is available on `Read The Docs`_.
     :alt: Build Status
     :target: https://travis-ci.org/caktus/django-timepiece
 
-Features
---------
+NEW Features (django-ems)
+------------
+
+ * Project contracts now have related Technical Assessments
+ * Keep time track on epics, stories, and tasks assigned
+ * Development teams with different members seniority per Project
+
+Features already included (django-timepiece)
+-------------------------
 
  * A simple CRM with projects and businesses
  * User dashboards with budgeted hours based on project contracts
@@ -26,6 +34,9 @@ Features
  * Verified, approved, and invoiced time sheet workflows
  * Monthly payroll reporting with overtime, paid leave, and vacation summaries
  * Project invoicing with hourly summaries
+
+
+For*NOTE*: backward compatibility package still named django-timepiece until we reales the published version
 
 Requirements
 ------------
@@ -63,10 +74,10 @@ To build the documentation locally:
 Installation
 ------------
 
-#. django-timepiece is available on `PyPI`_, so the easiest way to
-   install it and its dependencies is to use `pip`_::
+#. django-timepiece will be available on `PyPI`_, soon so the easiest way to
+   install right now is adding manually the following line to requirements.txt:
 
-    $ pip install django-timepiece
+    git+ssh://git@github.com/fetux/django-timepiece.git@v1.1.01
 
 #. Ensure that `less`_ is installed on your machine and the version is <=1.4.0::
 

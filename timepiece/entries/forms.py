@@ -7,7 +7,7 @@ from django.db.models import Q
 from selectable import forms as selectable
 
 from timepiece import utils
-from timepiece.crm.models import Project, ProjectRelationship
+from timepiece.crm.models import Project, TeamMember
 from timepiece.entries.models import Entry, Location, ProjectHours
 from timepiece.entries.lookups import ActivityLookup
 from timepiece.forms import (
@@ -22,7 +22,7 @@ class ClockInForm(forms.ModelForm):
 
     class Meta:
         model = Entry
-        fields = ('active_comment', 'location', 'project', 'activity',
+        fields = ('active_comment', 'location', 'project', 'user_story', 'task', 'activity',
                   'start_time', 'comments')
         widgets = {
             'activity': selectable.AutoComboboxSelectWidget(lookup_class=ActivityLookup),
@@ -54,7 +54,7 @@ class ClockInForm(forms.ModelForm):
 
         self.fields['start_time'].initial = datetime.datetime.now()
         self.fields['project'].queryset = Project.trackable.filter(
-            users=self.user)
+            teams__members__user=self.user)
         if not self.active:
             self.fields.pop('active_comment')
         else:
@@ -137,7 +137,7 @@ class AddUpdateEntryForm(forms.ModelForm):
         super(AddUpdateEntryForm, self).__init__(*args, **kwargs)
         self.instance.user = self.user
         self.fields['project'].queryset = Project.trackable.filter(
-            users=self.user)
+            team__members__user=self.user)
         # If editing the active entry, remove the end_time field.
         if self.instance.start_time and not self.instance.end_time:
             self.fields.pop('end_time')
@@ -191,7 +191,7 @@ class ProjectHoursForm(forms.ModelForm):
         ph = super(ProjectHoursForm, self).save()
         # since hours are being assigned to a user, add the user
         # to the project if they are not already in it so they can track time
-        ProjectRelationship.objects.get_or_create(user=self.cleaned_data['user'],
+        TeamMember.objects.get_or_create(user=self.cleaned_data['user'],
                                                   project=self.cleaned_data['project'])
         return ph
 

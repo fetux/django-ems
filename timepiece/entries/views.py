@@ -1,5 +1,7 @@
 from copy import deepcopy
 import datetime
+from django.http import JsonResponse
+
 from dateutil.relativedelta import relativedelta
 from decimal import Decimal
 from itertools import groupby
@@ -133,7 +135,6 @@ class Dashboard(TemplateView):
 
         return project_progress
 
-
 @permission_required('entries.can_clock_in')
 @transaction.atomic
 def clock_in(request):
@@ -157,6 +158,87 @@ def clock_in(request):
         'form': form,
         'active': active_entry,
     })
+
+
+def _get_hours_per_week(user=None):
+    """Retrieves the number of hours the user should work per week."""
+    try:
+        profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        profile = None
+    return profile.hours_per_week if profile else Decimal('40.00')
+
+
+def _get_dates():
+    today = datetime.date.today()
+    day = today
+    week_start = utils.get_week_start(day)
+    week_end = week_start + relativedelta(days=6)
+    return today, week_start, week_end
+
+
+def _process_progress(entries, assignments):
+    """
+    Returns a list of progress summary data (pk, name, hours worked, and
+    hours assigned) for each project either worked or assigned.
+    The list is ordered by project name.
+    """
+    # Determine all projects either worked or assigned.
+    project_q = Q(id__in=assignments.values_list('project__id', flat=True))
+    project_q |= Q(id__in=entries.values_list('project__id', flat=True))
+    projects = Project.objects.filter(project_q).select_related('business')
+
+    # Hours per project.
+    project_data = {}
+    for project in projects:
+        try:
+            assigned = assignments.get(project__id=project.pk).hours
+        except ProjectHours.DoesNotExist:
+            assigned = Decimal('0.00')
+        project_data[project.pk] = {
+            'project': project.serializable_value('name'),
+            'assigned': assigned,
+            'worked': Decimal('0.00'),
+        }
+
+    for entry in entries:
+        pk = entry.project_id
+        hours = Decimal('%.5f' % (entry.get_total_seconds() / 3600.0))
+        project_data[pk]['worked'] += hours
+
+    # Sort by maximum of worked or assigned hours (highest first).
+    # key = lambda x: x['project'].name.lower()
+    # project_progress = sorted(project_data.values(), key=key)
+
+    return project_data
+
+
+def dashboard_details(request):
+    today, week_start, week_end = _get_dates()
+
+    # Query for the user's active entry if it exists.
+    active_entry = utils.get_active_entry(request.user.id
+                                          )
+
+    # Process this week's entries to determine assignment progress.
+    week_entries = Entry.objects.filter(user=request.user.id)
+    week_entries = week_entries.timespan(week_start, span='week', current=True)
+    week_entries = week_entries.select_related('project')
+    assignments = ProjectHours.objects.filter(
+        user=request.user.id, week_start=week_start.date())
+    project_progress = _process_progress(week_entries, assignments)
+
+    # Total hours that the user is expected to clock this week.
+    total_assigned = _get_hours_per_week(request.user.id)
+    total_worked = sum([project_progress[p]['worked'] for p in project_progress])
+
+    return JsonResponse({
+        'active_entry': active_entry,
+        'total_assigned': total_assigned,
+        'total_worked': total_worked,
+        'project_progress': project_progress,
+        'week_entries': list(week_entries.values('project', 'start_time', 'end_time', 'pause_time'))
+    }, safe=False)
 
 
 @permission_required('entries.can_clock_out')

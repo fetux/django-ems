@@ -167,10 +167,10 @@ class NonbillableProject(Project):
     status = factory.SubFactory('timepiece.tests.factories.StatusAttribute', billable=False)
 
 
-class RelationshipType(factory.DjangoModelFactory):
+class TeamMemberRole(factory.DjangoModelFactory):
 
     class Meta:
-        model = crm.RelationshipType
+        model = crm.TeamMemberRole
 
     name = factory.Sequence(lambda n: 'reltype{0}'.format(n))
 

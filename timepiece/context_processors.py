@@ -22,7 +22,9 @@ def quick_clock_in(request):
     if user.is_authenticated() and user.is_active:
         # Display all active paid leave projects that the user is assigned to.
         leave_ids = utils.get_setting('TIMEPIECE_PAID_LEAVE_PROJECTS').values()
-        lq = Q(users=user) & Q(id__in=leave_ids)
+        #TODO: Fix Project User relationship
+        # lq = Q(user=user) & Q(id__in=leave_ids)
+        lq = Q(id__in=leave_ids)
         leave_projects = Project.trackable.filter(lq).order_by('name')
 
         # Get all projects this user has clocked in to.

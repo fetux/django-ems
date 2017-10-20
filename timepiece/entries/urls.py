@@ -4,6 +4,8 @@ from timepiece.entries import views
 
 
 urlpatterns = [
+    url(r'^api/dashboard/$', views.dashboard_details),
+
     url(r'^dashboard/(?:(?P<active_tab>progress|all-entries|online-users)/)?$',
         views.Dashboard.as_view(),
         name='dashboard'),

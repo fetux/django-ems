@@ -24,9 +24,9 @@ from timepiece.utils.views import cbv_decorator, format_totals
 
 from timepiece.crm.forms import (
     CreateEditBusinessForm, CreateEditProjectForm, EditUserSettingsForm,
-    EditProjectRelationshipForm, SelectProjectForm, EditUserForm,
+    EditTeamMemberForm, SelectProjectForm, EditUserForm,
     CreateUserForm, SelectUserForm, ProjectSearchForm, QuickSearchForm)
-from timepiece.crm.models import Business, Project, ProjectRelationship
+from timepiece.crm.models import Business, Project, TeamMember, ProjectTeam
 from timepiece.crm.utils import grouped_totals
 from timepiece.entries.models import Entry
 
@@ -472,6 +472,8 @@ class ViewProject(DetailView):
     template_name = 'timepiece/project/view.html'
 
     def get_context_data(self, **kwargs):
+        print(kwargs['object'].id)
+        kwargs.update({'team': ProjectTeam.objects.get(project_id=kwargs['object'].id)})
         kwargs.update({'add_user_form': SelectUserForm()})
         return super(ViewProject, self).get_context_data(**kwargs)
 
@@ -511,7 +513,7 @@ class CreateRelationship(View):
         user = self.get_user()
         project = self.get_project()
         if user and project:
-            ProjectRelationship.objects.get_or_create(user=user, project=project)
+            ProjectTeam.objects.get_or_create(members__user=user, project=project)
         redirect_to = request.GET.get('next', None) or reverse('dashboard')
         return HttpResponseRedirect(redirect_to)
 
@@ -529,7 +531,7 @@ class CreateRelationship(View):
 
 
 class RelationshipObjectMixin(object):
-    """Handles retrieving and redirecting for ProjectRelationship objects."""
+    """Handles retrieving and redirecting for TeamMember objects."""
 
     def get_object(self, queryset=None):
         queryset = self.get_queryset() if queryset is None else queryset
@@ -544,14 +546,14 @@ class RelationshipObjectMixin(object):
 @cbv_decorator(permission_required('crm.change_projectrelationship'))
 @cbv_decorator(transaction.atomic)
 class EditRelationship(RelationshipObjectMixin, UpdateView):
-    model = ProjectRelationship
+    model = TeamMember
     template_name = 'timepiece/relationship/edit.html'
-    form_class = EditProjectRelationshipForm
+    form_class = EditTeamMemberForm
 
 
 @cbv_decorator(permission_required('crm.delete_projectrelationship'))
 @cbv_decorator(csrf_exempt)
 @cbv_decorator(transaction.atomic)
 class DeleteRelationship(RelationshipObjectMixin, DeleteView):
-    model = ProjectRelationship
+    model = TeamMember
     template_name = 'timepiece/relationship/delete.html'

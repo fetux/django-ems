@@ -130,8 +130,6 @@ class Project(models.Model):
     business = models.ForeignKey(
         Business, related_name='new_business_projects')
     point_person = models.ForeignKey(User, limit_choices_to={'is_staff': True})
-    users = models.ManyToManyField(
-        User, related_name='user_projects', through='ProjectRelationship')
     activity_group = models.ForeignKey(
         'entries.ActivityGroup', related_name='activity_group', null=True,
         blank=True, verbose_name='restrict activities to')
@@ -174,30 +172,111 @@ class Project(models.Model):
 
 
 @python_2_unicode_compatible
-class RelationshipType(models.Model):
+class TeamMemberRole(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255)
 
     class Meta:
-        db_table = 'timepiece_relationshiptype'  # Using legacy table name.
+        db_table = 'timepiece_teammember'  # Using legacy table name.
 
     def __str__(self):
         return self.name
 
 
 @python_2_unicode_compatible
-class ProjectRelationship(models.Model):
-    types = models.ManyToManyField(
-        RelationshipType, blank=True, related_name='project_relationships')
-    user = models.ForeignKey(User, related_name='project_relationships')
-    project = models.ForeignKey(Project, related_name='project_relationships')
+class TeamMember(models.Model):
+    role = models.ForeignKey(TeamMemberRole, related_name='team_members')
+    user = models.ForeignKey(User, related_name='teams')
 
     class Meta:
-        db_table = 'timepiece_projectrelationship'  # Using legacy table name.
-        unique_together = ('user', 'project')
+        db_table = 'timepiece_projectteammember'  # Using legacy table name.
 
     def __str__(self):
-        return "{project}'s relationship to {user}".format(
-            project=self.project.name,
+        return "{user} as {role}".format(
             user=self.user.get_name_or_username(),
+            role=self.role.name,
+        )
+
+
+@python_2_unicode_compatible
+class ProjectTeam(models.Model):
+    project = models.ForeignKey(Project, blank=True, related_name='team')
+    active = models.BooleanField(default=False)
+    members = models.ManyToManyField(
+        TeamMember, blank=True, related_name='teams')
+    rump_up_factor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    co_factor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    class Meta:
+        db_table = 'timepiece_projectteam'  # Using legacy table name.
+
+    def __str__(self):
+        return "{project}'".format(
+            project=self.project.name,
+        )
+
+
+@python_2_unicode_compatible
+class ProjectAssessment(models.Model):
+    slug = models.SlugField(max_length=255)
+    project = models.ForeignKey(Project, related_name='assessments')
+    risk_factor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    class Meta:
+        db_table = 'timepiece_projectassessment'  # Using legacy table name.
+
+    def __str__(self):
+        return "{slug}' from {project}".format(
+            slug=self.slug,
+            project=self.project.name,
+        )
+
+
+@python_2_unicode_compatible
+class ProjectEpic(models.Model):
+    name = models.CharField(max_length=255)
+    project = models.ForeignKey(Project, related_name='epics', blank=True, null=True)
+    assessment = models.ForeignKey(ProjectAssessment, related_name='epics', blank=True, null=True)
+
+    class Meta:
+        db_table = 'timepiece_projectepic'  # Using legacy table name.
+
+    def __str__(self):
+        return "{project} - {epic}".format(
+            project=self.project.name,
+            epic=self.name,
+        )
+
+
+@python_2_unicode_compatible
+class ProjectUserStory(models.Model):
+    epic = models.ForeignKey(ProjectEpic, related_name='user_stories', null=True)
+    ref = models.IntegerField(null=True, blank=True)
+    type = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    assignee = models.ForeignKey(User, related_name='user_stories', null=True, blank=True)
+    eta_hours = models.DecimalField(max_digits=8, decimal_places=2, default=0, null=True, blank=True)
+    status = models.CharField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        db_table = 'timepiece_projectuserstory'  # Using legacy table name.
+
+    def __str__(self):
+        return "{project} - {user_story}".format(
+            project=self.epic.project.name,
+            user_story=self.title
+        )
+
+
+@python_2_unicode_compatible
+class ProjectTask(ProjectUserStory):
+
+    class Meta:
+        db_table = 'timepiece_projecttask'  # Using legacy table name.
+
+    def __str__(self):
+        return "{project} - {user_story} - {task}".format(
+            project=self.user_story.epic.project.name,
+            user_story=self.user_story.title,
+            task=self.title
         )
