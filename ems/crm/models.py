@@ -31,7 +31,7 @@ class UserProfile(models.Model):
         max_digits=8, decimal_places=2, default=40)
 
     class Meta:
-        db_table = 'timepiece_userprofile'  # Using legacy table name.
+        db_table = 'ems_userprofile'  # Using legacy table name.
 
     def __str__(self):
         return self.user
@@ -78,7 +78,7 @@ class Attribute(models.Model):
     statuses = StatusAttributeManager()
 
     class Meta:
-        db_table = 'timepiece_attribute'  # Using legacy table name.
+        db_table = 'ems_attribute'  # Using legacy table name.
         unique_together = ('type', 'label')
         ordering = ('sort_order',)
 
@@ -96,7 +96,7 @@ class Business(models.Model):
     external_id = models.CharField(max_length=32, blank=True)
 
     class Meta:
-        db_table = 'timepiece_business'  # Using legacy table name.
+        db_table = 'ems_business'  # Using legacy table name.
         ordering = ('name',)
         verbose_name_plural = 'Businesses'
         permissions = (
@@ -145,7 +145,7 @@ class Project(models.Model):
     trackable = TrackableProjectManager()
 
     class Meta:
-        db_table = 'timepiece_project'  # Using legacy table name.
+        db_table = 'ems_project'  # Using legacy table name.
         ordering = ('name', 'status', 'type',)
         permissions = (
             ('view_project', 'Can view project'),
@@ -177,7 +177,7 @@ class TeamMemberRole(models.Model):
     slug = models.SlugField(max_length=255)
 
     class Meta:
-        db_table = 'timepiece_teammember'  # Using legacy table name.
+        db_table = 'ems_teammember'  # Using legacy table name.
 
     def __str__(self):
         return self.name
@@ -189,7 +189,7 @@ class TeamMember(models.Model):
     user = models.ForeignKey(User, related_name='teams')
 
     class Meta:
-        db_table = 'timepiece_projectteammember'  # Using legacy table name.
+        db_table = 'ems_projectteammember'  # Using legacy table name.
 
     def __str__(self):
         return "{user} as {role}".format(
@@ -208,7 +208,7 @@ class ProjectTeam(models.Model):
     co_factor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     class Meta:
-        db_table = 'timepiece_projectteam'  # Using legacy table name.
+        db_table = 'ems_projectteam'  # Using legacy table name.
 
     def __str__(self):
         return "{project}'".format(
@@ -223,7 +223,7 @@ class ProjectAssessment(models.Model):
     risk_factor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     class Meta:
-        db_table = 'timepiece_projectassessment'  # Using legacy table name.
+        db_table = 'ems_projectassessment'  # Using legacy table name.
 
     def __str__(self):
         return "{slug}' from {project}".format(
@@ -239,7 +239,7 @@ class ProjectEpic(models.Model):
     assessment = models.ForeignKey(ProjectAssessment, related_name='epics', blank=True, null=True)
 
     class Meta:
-        db_table = 'timepiece_projectepic'  # Using legacy table name.
+        db_table = 'ems_projectepic'  # Using legacy table name.
 
     def __str__(self):
         return "{project} - {epic}".format(
@@ -259,7 +259,7 @@ class ProjectUserStory(models.Model):
     status = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
-        db_table = 'timepiece_projectuserstory'  # Using legacy table name.
+        db_table = 'ems_projectuserstory'  # Using legacy table name.
 
     def __str__(self):
         return "{project} - {user_story}".format(
@@ -272,7 +272,7 @@ class ProjectUserStory(models.Model):
 class ProjectTask(ProjectUserStory):
 
     class Meta:
-        db_table = 'timepiece_projecttask'  # Using legacy table name.
+        db_table = 'ems_projecttask'  # Using legacy table name.
 
     def __str__(self):
         return "{project} - {user_story} - {task}".format(

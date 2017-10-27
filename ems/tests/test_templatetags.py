@@ -7,7 +7,7 @@ from django.test import TestCase
 from django.utils.html import strip_tags
 
 from ems import utils
-from ems.templatetags import timepiece_tags as tags
+from ems.templatetags import ems_tags as tags
 
 from . import factories
 

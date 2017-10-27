@@ -5,7 +5,7 @@ from django.apps import apps
 from django.conf import settings
 from django.utils import timezone
 
-from ems.defaults import TimepieceDefaults
+from ems.defaults import EmsDefaults
 
 
 class ActiveEntryError(Exception):
@@ -67,7 +67,7 @@ def get_month_start(day=None):
     return day.replace(day=1)
 
 
-defaults = TimepieceDefaults()
+defaults = EmsDefaults()
 
 
 def get_setting(name, **kwargs):

@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('min_hours_per_week', models.IntegerField(default=0)),
             ],
             options={
-                'db_table': 'timepiece_contractassignment',
+                'db_table': 'ems_contractassignment',
             },
             bases=(models.Model,),
         ),
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('notes', models.TextField(blank=True)),
             ],
             options={
-                'db_table': 'timepiece_contracthour',
+                'db_table': 'ems_contracthour',
                 'verbose_name': 'contracted hours',
                 'verbose_name_plural': 'contracted hours',
             },
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('end', models.DateField()),
             ],
             options={
-                'db_table': 'timepiece_entrygroup',
+                'db_table': 'ems_entrygroup',
             },
             bases=(models.Model,),
         ),
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('order', models.PositiveIntegerField(unique=True, null=True, blank=True)),
             ],
             options={
-                'db_table': 'timepiece_hourgroup',
+                'db_table': 'ems_hourgroup',
             },
             bases=(models.Model,),
         ),
@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('-end_date',),
-                'db_table': 'timepiece_projectcontract',
+                'db_table': 'ems_projectcontract',
                 'verbose_name': 'contract',
             },
             bases=(models.Model,),

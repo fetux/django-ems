@@ -20,7 +20,7 @@ class ReportsTestBase(TestCase):
         self.activity = factories.Activity()
         self.sick = factories.Project()
         self.vacation = factories.Project()
-        settings.TIMEPIECE_PAID_LEAVE_PROJECTS = {
+        settings.EMS_PAID_LEAVE_PROJECTS = {
             'sick': self.sick.pk,
             'vacation': self.vacation.pk,
         }

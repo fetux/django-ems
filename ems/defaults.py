@@ -1,10 +1,10 @@
 
-class TimepieceDefaults(object):
+class EmsDefaults(object):
 
-    TIMEPIECE_DEFAULT_LOCATION_SLUG = None
+    EMS_DEFAULT_LOCATION_SLUG = None
 
-    TIMEPIECE_PAID_LEAVE_PROJECTS = {}
+    EMS_PAID_LEAVE_PROJECTS = {}
 
-    TIMEPIECE_ACCOUNTING_EMAILS = []
+    EMS_ACCOUNTING_EMAILS = []
 
-    TIMEPIECE_EMAILS_USE_HTTPS = True
+    EMS_EMAILS_USE_HTTPS = True

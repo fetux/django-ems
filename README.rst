@@ -3,20 +3,20 @@ django-ems
 
 django-ems is a multi-user application for tracking people's time on software
 projects.
-django-ems is based on django-timepiece. Documentation of django-ems is available on `Read The Docs`_.
+django-ems is based on django-ems. Documentation of django-ems is available on `Read The Docs`_.
 
 :master: |master-status|
 :develop: |develop-status|
 
 .. |master-status| image::
-    https://api.travis-ci.org/caktus/django-timepiece.png?branch=master
+    https://api.travis-ci.org/caktus/django-ems.png?branch=master
     :alt: Build Status
-    :target: https://travis-ci.org/caktus/django-timepiece
+    :target: https://travis-ci.org/caktus/django-ems
 
 .. |develop-status| image::
-    https://api.travis-ci.org/caktus/django-timepiece.png?branch=develop
+    https://api.travis-ci.org/caktus/django-ems.png?branch=develop
     :alt: Build Status
-    :target: https://travis-ci.org/caktus/django-timepiece
+    :target: https://travis-ci.org/caktus/django-ems
 
 NEW Features (django-ems)
 ------------
@@ -199,8 +199,8 @@ Development sponsored by `Caktus Group`_.
 
 
 .. _Caktus Group: https://www.caktusgroup.com/services
-.. _GitHub: https://github.com/caktus/django-timepiece
+.. _GitHub: https://github.com/caktus/django-ems
 .. _less: http://lesscss.org
 .. _pip: http://pip.openplans.org/
-.. _PyPI: http://pypi.python.org/pypi/django-timepiece
+.. _PyPI: http://pypi.python.org/pypi/django-ems
 .. _Read The Docs: http://django-ems.readthedocs.org

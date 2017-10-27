@@ -17,13 +17,13 @@ with five decimal places.
 1.0.0 (2016-01-04)
 ----------------------------
 
-Release 1.0.0 is a comprehensive update of the django-timepiece codebase. It is
+Release 1.0.0 is a comprehensive update of the django-ems codebase. It is
 based on 0.9.5, which was not officially released to PyPI. Release
 1.0.0 includes the bulk of the unofficial 0.9.5 release, along with several critical
 code quality improvements to 0.9.5.
 
 Please note that **release 1.0.0 is not backwards compatible with any 0.9.x release.**
-It is a new and separate refactoring of django-timepiece.
+It is a new and separate refactoring of django-ems.
 
 *Features*
 
@@ -88,7 +88,7 @@ matched)
 * Use Model.add_to_class to augment class.
 * Make use of @cbv_decorator to avoid creating new Mixin classes for every
   decorator.
-* Reorganized navbar templates to make extension easier when Timepiece is a
+* Reorganized navbar templates to make extension easier when Ems is a
   secondary app. Thanks @dannybrowne86!
 
 0.9.4 (Released 04-01-2014)
@@ -100,29 +100,29 @@ matched)
 ---------------------------
 
 Related issues are in the `0.9.3. milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=39&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=39&state=closed>`_.
 
 *Features*
 
 * Allow using compress when `DEBUG = True` with a new context processor,
-  `timepiece.context_processors.extra_settings`.
+  `ems.context_processors.extra_settings`.
 * Align daily summary tables on the user timesheet
-  (`#725 <https://github.com/caktus/django-timepiece/pull/725>`_).
+  (`#725 <https://github.com/caktus/django-ems/pull/725>`_).
 * Add progress bars on the contract listing page
-  (`#707 <https://github.com/caktus/django-timepiece/pull/707>`_).
+  (`#707 <https://github.com/caktus/django-ems/pull/707>`_).
 * Add vertical highlighting to the payroll summary report
-  (`#727 <https://github.com/caktus/django-timepiece/issues/727>`_).
+  (`#727 <https://github.com/caktus/django-ems/issues/727>`_).
 * Bump `django-selectable <https://django-selectable.readthedocs.org/en/version-0.7.0/>`_
   version number to 0.7.0.
 * Added a warning on the outstanding invoices page if users have unverified/unapproved
-  entries for the selected time period (`#744 <https://github.com/caktus/django-timepiece/pull/744>`_).
+  entries for the selected time period (`#744 <https://github.com/caktus/django-ems/pull/744>`_).
 
 *Bugfixes*
 
 * Include entries on last date of query on invoice listing page
-  (`#718 <https://github.com/caktus/django-timepiece/issues/718>`_).
+  (`#718 <https://github.com/caktus/django-ems/issues/718>`_).
 * Display correct user name on the timesheet rejection confirmation page
-  (`#726 <https://github.com/caktus/django-timepiece/issues/726>`_).
+  (`#726 <https://github.com/caktus/django-ems/issues/726>`_).
 * Register `contracts.ContractHour` in the admin so that the
   `get_absolute_url()` method can work.
 
@@ -139,7 +139,7 @@ Related issues are in the `0.9.3. milestone
 ---------------------------
 
 Related issues are in the `0.9.2 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=34&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=34&state=closed>`_.
 
 *Features*
 
@@ -173,7 +173,7 @@ Related issues are in the `0.9.2 milestone
 
 *Code quality*
 
-* Split view test methods from `TimepieceDataTestCase` to create
+* Split view test methods from `EmsDataTestCase` to create
   `ViewTestMixin`.
 * Removed some outdated styles.
 * Used global styles for table highlight and hover colors.
@@ -183,7 +183,7 @@ Related issues are in the `0.9.2 milestone
 0.9.1 (Released 05-14-2013)
 ---------------------------
 Related issues are in the `0.9.1 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=38&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=38&page=1&state=closed>`_.
 
 * Fixed a bug with the 'db_name' of some contract models that was causing
   database queries to use the wrong table name.
@@ -192,21 +192,21 @@ Related issues are in the `0.9.1 milestone
 ---------------------------
 
 Related issues are in the `0.9.0 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=33&state=closed>_`.
+<https://github.com/caktus/django-ems/issues?milestone=33&state=closed>_`.
 
-We have reorganized the django-timepiece code into 5 co-dependent apps to make
+We have reorganized the django-ems code into 5 co-dependent apps to make
 the code more modular, readable, and updatable. To upgrade your installation
 while maintaining your existing data, please follow these guidelines:
 
-    1. Ensure that all existing migrations for django-timepiece are up to date.
-    2. Upgrade your django-timepiece installation.
-    3. Add ``'timepiece'``, ``'timepiece.contracts'``, ``'timepiece.crm'``,
-       ``'timepiece.entries'``, and ``'timepiece.reports'`` to
+    1. Ensure that all existing migrations for django-ems are up to date.
+    2. Upgrade your django-ems installation.
+    3. Add ``'ems'``, ``'ems.contracts'``, ``'ems.crm'``,
+       ``'ems.entries'``, and ``'ems.reports'`` to
        `INSTALLED_APPS` in your settings file.
     4. Run the new migrations:
        ::
 
-        ./manage.py migrate timepiece --delete-ghost-migrations
+        ./manage.py migrate ems --delete-ghost-migrations
         ./manage.py migrate reports
         ./manage.py migrate contracts --fake
         ./manage.py migrate crm --fake
@@ -215,12 +215,12 @@ while maintaining your existing data, please follow these guidelines:
     5. Remove all of your old \*.pyc files, e.g. run something like
        `find . -name '*.pyc' -delete` in bash.
     6. Remove stale ContentType and Permission objects. Note: Before doing
-       this, take note of which timepiece permissions are in each of your auth
+       this, take note of which ems permissions are in each of your auth
        Groups as these will need to be restored.
        ::
 
-        # This also deletes associated timepiece permissions.
-        ContentType.objects.filter(app_label='timepiece').delete()
+        # This also deletes associated ems permissions.
+        ContentType.objects.filter(app_label='ems').delete()
 
     7. Trigger the creation of new ContentType and Permission objects:
        ::
@@ -229,7 +229,7 @@ while maintaining your existing data, please follow these guidelines:
         from django.contrib.contenttypes.management import update_contenttypes
         from django.db.models import get_app, get_models
 
-        for app in ['timepiece', 'contracts', 'crm', 'entries', 'reports']:
+        for app in ['ems', 'contracts', 'crm', 'entries', 'reports']:
             update_content_types(get_app(app), get_models())
             create_permissions(get_app(app), get_models(), 0)
 
@@ -237,7 +237,7 @@ while maintaining your existing data, please follow these guidelines:
 
 
 Related issues are in the `0.9.0 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=33&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=33&page=1&state=closed>`_.
 
 * Reorganized app structure (see notes above)
 * Removed existing migrations (see notes above)
@@ -251,7 +251,7 @@ Related issues are in the `0.9.0 milestone
 ---------------------------
 
 Related issues are in the `0.8.3 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=37&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=37&page=1&state=closed>`_.
 
 * Fixed invoice creation to separate out non-billable activities and not count
   them in the invoice totals.
@@ -266,7 +266,7 @@ Related issues are in the `0.8.3 milestone
 ---------------------------
 
 Related issues are in the `0.8.2 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=36&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=36&page=1&state=closed>`_.
 
 * Added permission requirements to view invoice list
 * Added static files blocks to the base template
@@ -275,7 +275,7 @@ Related issues are in the `0.8.2 milestone
 ---------------------------
 
 Related issues are in the `0.8.1 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=35&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=35&page=1&state=closed>`_.
 
 * Restored `slug` field on RelationshipType
 
@@ -283,7 +283,7 @@ Related issues are in the `0.8.1 milestone
 ---------------------------
 
 Related issues are in the `0.8.0 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=31&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=31&page=1&state=closed>`_.
 
 *Features*
 
@@ -327,7 +327,7 @@ Related issues are in the `0.8.0 milestone
 ---------------------------
 
 Related issues are in the `0.7.3 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=30&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=30&page=1&state=closed>`_.
 
 *Features*
 
@@ -377,11 +377,11 @@ Related issues are in the `0.7.3 milestone
 ---------------------------
 
 Related issues are in the `0.7.1 milestone
-<https://github.com/caktus/django-timepiece/issues?milestone=29&page=1&state=closed>`_.
+<https://github.com/caktus/django-ems/issues?milestone=29&page=1&state=closed>`_.
 
 * Fixed path to white Glyphicons
 * Fixed duplicates in unverified list on Payroll Summary report
-* Removed unused ``timepiece/time-sheet/_entry_list.html`` template
+* Removed unused ``ems/time-sheet/_entry_list.html`` template
 * Made ``Business.name`` field required
 * Schema migration to add ``Business.short_name`` field
 * Add ``Business.get_display_name()`` to retrieve first of ``short_name`` or
@@ -424,7 +424,7 @@ Related issues are in the `0.7.1 milestone
   - Added "Quick Clock In" pulldown to allow link to project-specific clock
     in form from anywhere on the site
   - Replaced "Dashboard" pulldown with a link to the user's monthly time
-    sheet. The dashboard is accessible via the "Timepiece" link in the top
+    sheet. The dashboard is accessible via the "Ems" link in the top
     left corner.
   - Renamed "Reports" dropdown to "Management", and moved link to the admin
     from the user pulldown
@@ -463,11 +463,11 @@ Related issues are in the `0.7.1 milestone
 
 *Code Quality*
 
-* Renamed the 'timepiece-entries' URL to 'dashboard'
+* Renamed the 'ems-entries' URL to 'dashboard'
 * Removed unnecessary settings from example_project and run_tests
 * Split up settings files in example project to use base and local settings
 * Removed unused jqplot library
-* Moved ``multiply`` template tag to timepiece_tags and removed math_tags file
+* Moved ``multiply`` template tag to ems_tags and removed math_tags file
 * Removed most of custom icon set in favor of Bootstrap's Glyphicons
 
 0.6.0 (Released 10-04-2012)

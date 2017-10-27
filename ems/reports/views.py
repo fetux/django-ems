@@ -111,7 +111,7 @@ class ReportMixin(object):
             billableQ = Q(activity__billable=False) | Q(project__type__billable=False)
 
         # Filter by whether the entry is paid leave.
-        leave_ids = utils.get_setting('TIMEPIECE_PAID_LEAVE_PROJECTS').values()
+        leave_ids = utils.get_setting('EMS_PAID_LEAVE_PROJECTS').values()
         leaveQ = Q(project__in=leave_ids)
         if incl_leave:
             extraQ = (leaveQ | billableQ) if billableQ else leaveQ
@@ -343,7 +343,7 @@ def report_payroll_summary(request):
     if year_month_form.is_valid():
         from_date, to_date = year_month_form.save()
     last_billable = utils.get_last_billable_day(from_date)
-    projects = utils.get_setting('TIMEPIECE_PAID_LEAVE_PROJECTS')
+    projects = utils.get_setting('EMS_PAID_LEAVE_PROJECTS')
     weekQ = Q(end_time__gt=utils.get_week_start(from_date),
               end_time__lt=last_billable + relativedelta(days=1))
     monthQ = Q(end_time__gt=from_date, end_time__lt=to_date)

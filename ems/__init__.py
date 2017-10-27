@@ -1,12 +1,12 @@
 """
-django-timepiece is a multi-user application for tracking users' time on
+django-ems is a multi-user application for tracking users' time on
 projects.
 """
 
 __version_info__ = {
     'major': 1,
     'minor': 1,
-    'micro': 0,
+    'micro': 4,
     'release_level': 'final',
 }
 

@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView
 
 from ems import utils
-from ems.templatetags.timepiece_tags import seconds_to_hours
+from ems.templatetags.ems_tags import seconds_to_hours
 from ems.utils.csv import CSVViewMixin
 from ems.utils.search import SearchListView
 from ems.utils.views import cbv_decorator

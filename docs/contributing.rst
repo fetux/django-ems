@@ -1,14 +1,14 @@
 Contributing
 ============
 
-django-timepiece is an open-source project and we are excited to have
+django-ems is an open-source project and we are excited to have
 community contributions.
 
 Submit an Issue
 ---------------
 
 Issues are managed on Github. If you think you've found a bug then it's
-helpful if you indicate the version of django-timepiece that you are using. If
+helpful if you indicate the version of django-ems that you are using. If
 you think your bug is JavaScript- or styling-related, then it is also helpful
 to know which browser you are using.
 
@@ -19,10 +19,10 @@ features and push them back up to us!
 Get the Source
 --------------
 
-Feel free to fork django-timepiece and make your own changes. You can download
+Feel free to fork django-ems and make your own changes. You can download
 the full source by cloning the git repo::
 
-    git clone https://github.com/caktus/django-timepiece.git
+    git clone https://github.com/caktus/django-ems.git
 
 If you think that your changes could be helpful to others, please submit a
 pull request to have it merged in. Here's a quick guide:

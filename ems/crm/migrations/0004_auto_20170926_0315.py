@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('risk_factor', models.DecimalField(default=0, max_digits=8, decimal_places=2)),
             ],
             options={
-                'db_table': 'timepiece_projectassessment',
+                'db_table': 'ems_projectassessment',
             },
         ),
         migrations.CreateModel(
@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('assessment', models.ForeignKey(null=True, related_name='epics', to='crm.ProjectAssessment')),
             ],
             options={
-                'db_table': 'timepiece_projectepic',
+                'db_table': 'ems_projectepic',
             },
         ),
         migrations.CreateModel(
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 ('co_factor', models.DecimalField(default=0, max_digits=8, decimal_places=2)),
             ],
             options={
-                'db_table': 'timepiece_projectteam',
+                'db_table': 'ems_projectteam',
             },
         ),
         migrations.CreateModel(
@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(max_length=255)),
             ],
             options={
-                'db_table': 'timepiece_projectuserstory',
+                'db_table': 'ems_projectuserstory',
             },
         ),
         migrations.CreateModel(
@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
             ],
             options={
-                'db_table': 'timepiece_projectteammember',
+                'db_table': 'ems_projectteammember',
             },
         ),
         migrations.RenameModel(
@@ -96,7 +96,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelTable(
             name='teammemberrole',
-            table='timepiece_teammember',
+            table='ems_teammember',
         ),
         migrations.CreateModel(
             name='ProjectTask',
@@ -104,7 +104,7 @@ class Migration(migrations.Migration):
                 ('projectuserstory_ptr', models.OneToOneField(parent_link=True, serialize=False, to='crm.ProjectUserStory', auto_created=True, primary_key=True)),
             ],
             options={
-                'db_table': 'timepiece_projecttask',
+                'db_table': 'ems_projecttask',
             },
             bases=('crm.projectuserstory',),
         ),
