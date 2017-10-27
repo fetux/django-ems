@@ -8,6 +8,6 @@ env:
 install:
   - pip install -q tox==2.2.1
 before_script:
-  - psql -c 'create database timepiece;' -U postgres
+  - psql -c 'create database ems;' -U postgres
 script:
   - tox -- --settings=example_project.settings.travis

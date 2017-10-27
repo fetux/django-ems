@@ -3,7 +3,7 @@ django-ems
 
 django-ems is a multi-user application for tracking people's time on software
 projects.
-django-ems is based on django-timepiece. Documentation of django-timepiece is available on `Read The Docs`_.
+django-ems is based on django-timepiece. Documentation of django-ems is available on `Read The Docs`_.
 
 :master: |master-status|
 :develop: |develop-status|
@@ -25,7 +25,7 @@ NEW Features (django-ems)
  * Keep time track on epics, stories, and tasks assigned
  * Development teams with different members seniority per Project
 
-Features already included (django-timepiece)
+Features already included (django-ems)
 -------------------------
 
  * A simple CRM with projects and businesses
@@ -36,12 +36,12 @@ Features already included (django-timepiece)
  * Project invoicing with hourly summaries
 
 
-For*NOTE*: backward compatibility package still named django-timepiece until we reales the published version
+For*NOTE*: backward compatibility package still named django-ems until we reales the published version
 
 Requirements
 ------------
 
-django-timepiece is compatible with Django 1.8 (on Python 2.7 and Python 3.5) and
+django-ems is compatible with Django 1.8 (on Python 2.7 and Python 3.5) and
 Django 1.9 (on Python 2.7 and Python 3.5). PostgreSQL is the only
 officially supported backend. For a full list of required libraries, see
 the `requirements/base.txt` from the project source on `GitHub`_.
@@ -57,13 +57,13 @@ Documentation is hosted on `Read The Docs`_.
 
 To build the documentation locally:
 
-#. Download a copy of the `django-timepiece` source, either through
+#. Download a copy of the `django-ems` source, either through
    use of `git clone` or by downloading a zipfile from `GitHub`_.
 
 #. Make sure that the top-level directory is on your Python path. If you're
    using a virtual environment, this can be accomplished via::
 
-        cd /path/to/django-timepiece/ && add2virtualenv .
+        cd /path/to/django-ems/ && add2virtualenv .
 
 #. Install the requirements in `requirements/docs.txt` from the project
    source on `GitHub`_.
@@ -74,10 +74,10 @@ To build the documentation locally:
 Installation
 ------------
 
-#. django-timepiece will be available on `PyPI`_, soon so the easiest way to
+#. django-ems will be available on `PyPI`_, soon so the easiest way to
    install right now is adding manually the following line to requirements.txt:
 
-    git+ssh://git@github.com/fetux/django-timepiece.git@v1.1.01
+    git+ssh://git@github.com/fetux/django-ems.git@v1.1.01
 
 #. Ensure that `less`_ is installed on your machine and the version is <=1.4.0::
 
@@ -97,7 +97,7 @@ Installation
    If you are using an existing project, you will need to make the following
    changes to your settings:
 
-   - Add `timepiece` and its dependencies to ``INSTALLED_APPS``::
+   - Add `ems` and its dependencies to ``INSTALLED_APPS``::
 
         INSTALLED_APPS = (
             ...
@@ -106,11 +106,11 @@ Installation
             'selectable',
 
             # Must come last.
-            'timepiece',
-            'timepiece.contracts',
-            'timepiece.crm',
-            'timepiece.entries',
-            'timepiece.reports',
+            'ems',
+            'ems.contracts',
+            'ems.crm',
+            'ems.entries',
+            'ems.reports',
         )
 
    - Configure your middleware::
@@ -123,7 +123,7 @@ Installation
             'django.contrib.messages.middleware.MessageMiddleware',
         )
 
-   - Add `django.core.context_processors.request` and django-timepiece context
+   - Add `django.core.context_processors.request` and django-ems context
      processors to ``TEMPLATE_CONTEXT_PROCESSORS``::
 
         TEMPLATE_CONTEXT_PROCESSORS = (
@@ -133,9 +133,9 @@ Installation
             "django.core.context_processors.media",
             "django.contrib.messages.context_processors.messages",
             "django.core.context_processors.request",           # <----
-            "timepiece.context_processors.quick_clock_in",      # <----
-            "timepiece.context_processors.quick_search",        # <----
-            "timepiece.context_processors.extra_settings",      # <----
+            "ems.context_processors.quick_clock_in",      # <----
+            "ems.context_processors.quick_search",        # <----
+            "ems.context_processors.extra_settings",      # <----
         )
 
    - Configure compressor settings::
@@ -146,17 +146,17 @@ Installation
         COMPRESS_ROOT = '%s/static/' % PROJECT_PATH
         INTERNAL_IPS = ('127.0.0.1',)
 
-   - Set ``USE_TZ`` to ``False``. django-timepiece does not currently support
+   - Set ``USE_TZ`` to ``False``. django-ems does not currently support
      timezones.
 
 #. Run ``syncdb`` and ``migrate``.
 
-#. Add URLs for django-timepiece and selectable to `urls.py`, e.g.::
+#. Add URLs for django-ems and selectable to `urls.py`, e.g.::
 
     urlpatterns = [
         ...
         (r'^selectable/', include('selectable.urls')),
-        (r'', include('timepiece.urls')),
+        (r'', include('ems.urls')),
         ...
     ]
 
@@ -203,4 +203,4 @@ Development sponsored by `Caktus Group`_.
 .. _less: http://lesscss.org
 .. _pip: http://pip.openplans.org/
 .. _PyPI: http://pypi.python.org/pypi/django-timepiece
-.. _Read The Docs: http://django-timepiece.readthedocs.org
+.. _Read The Docs: http://django-ems.readthedocs.org

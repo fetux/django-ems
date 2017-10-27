@@ -7,16 +7,16 @@ import argparse
 # By default, tests will be run for these apps.
 # Other tests can be specified via command-line arguments.
 DEFAULT_APPS = [
-    'timepiece',
-    'timepiece.contracts',
-    'timepiece.crm',
-    'timepiece.entries',
-    'timepiece.reports',
+    'ems',
+    'ems.contracts',
+    'ems.crm',
+    'ems.entries',
+    'ems.reports',
 ]
 
 
 parser = argparse.ArgumentParser(
-    description="Run tests for the django-timepiece application.")
+    description="Run tests for the django-ems application.")
 parser.add_argument(
     'apps',
     nargs="*",

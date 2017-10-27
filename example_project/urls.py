@@ -8,7 +8,7 @@ admin.autodiscover()  # For Django 1.6
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^selectable/', include('selectable.urls')),
-    url(r'', include('timepiece.urls')),
+    url(r'', include('ems.urls')),
 
     # authentication views
     url(r'^accounts/login/$', auth_views.login,

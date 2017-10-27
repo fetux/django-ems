@@ -8,7 +8,7 @@ PROJECT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'timepiece',
+        'NAME': 'ems',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -27,11 +27,11 @@ INSTALLED_APPS = [
 
     # Timepiece apps must be listed before third-party apps in order
     # for template overrides to work.
-    'timepiece',
-    'timepiece.contracts',
-    'timepiece.crm',
-    'timepiece.entries',
-    'timepiece.reports',
+    'ems',
+    'ems.contracts',
+    'ems.crm',
+    'ems.entries',
+    'ems.reports',
 
     'bootstrap_toolkit',
     'compressor',
@@ -102,9 +102,9 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
-    'timepiece.context_processors.quick_search',
-    'timepiece.context_processors.quick_clock_in',
-    'timepiece.context_processors.extra_settings',
+    'ems.context_processors.quick_search',
+    'ems.context_processors.quick_clock_in',
+    'ems.context_processors.extra_settings',
 ]
 
 TEMPLATE_DIRS = [
@@ -124,7 +124,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False  # NOTE: django-timepiece does not currently support timezones.
+USE_TZ = False  # NOTE: django-ems does not currently support timezones.
 
 WSGI_APPLICATION = 'example_project.wsgi.application'
 
