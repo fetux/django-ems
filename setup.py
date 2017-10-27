@@ -43,8 +43,8 @@ setup(
     license='BSD',
     long_description=open('README.rst').read(),
     name='django-ems',
-    test_suite='run_tests.run_django_tests',
-    tests_require=required_packages + test_packages,
+    # test_suite='run_tests.run_django_tests',
+    # tests_require=required_packages + test_packages,
     url='https://github.com/fetux/django-ems',
     version=__import__('ems').__version__,
     zip_safe=False,  # because we're including media that Django needs

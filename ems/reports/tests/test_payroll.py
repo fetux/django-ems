@@ -25,7 +25,7 @@ class PayrollTest(ViewTestMixin, LogTimeMixin, TestCase):
         self.activity = factories.Activity()
         self.sick = factories.Project(name='sick')
         self.vacation = factories.Project(name='vacation')
-        settings.TIMEPIECE_PAID_LEAVE_PROJECTS = {
+        settings.EMS_PAID_LEAVE_PROJECTS = {
             'sick': self.sick.pk, 'vacation': self.vacation.pk
         }
         self.next = utils.add_timezone(datetime.datetime(2011, 6, 1))

@@ -1,5 +1,5 @@
 {
-  "name": "timepiece",
+  "name": "ems",
   "version": "1.1.0",
   "dependencies": {
     "less": "<=1.4.0"

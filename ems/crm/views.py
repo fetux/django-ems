@@ -17,7 +17,7 @@ from django.views.generic import (
 
 from ems import utils
 from ems.forms import YearMonthForm, UserYearMonthForm
-from ems.templatetags.timepiece_tags import seconds_to_hours
+from ems.templatetags.ems_tags import seconds_to_hours
 from ems.utils.csv import CSVViewMixin
 from ems.utils.search import SearchListView
 from ems.utils.views import cbv_decorator, format_totals

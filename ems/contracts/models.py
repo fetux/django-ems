@@ -50,7 +50,7 @@ class ProjectContract(models.Model):
     class Meta:
         ordering = ('-end_date',)
         verbose_name = 'contract'
-        db_table = 'timepiece_projectcontract'  # Using legacy table name.
+        db_table = 'ems_projectcontract'  # Using legacy table name.
 
     def __str__(self):
         return self.name
@@ -233,7 +233,7 @@ class ContractHour(models.Model):
     class Meta(object):
         verbose_name = 'contracted hours'
         verbose_name_plural = verbose_name
-        db_table = 'timepiece_contracthour'  # Using legacy table name.
+        db_table = 'ems_contracthour'  # Using legacy table name.
 
     def __str__(self):
         return "{} on {} ({})".format(
@@ -265,7 +265,7 @@ class ContractHour(models.Model):
 
     def _send_mail(self, subject, ctx):
         # Don't go to the work unless we have a place to send it
-        emails = utils.get_setting('TIMEPIECE_ACCOUNTING_EMAILS')
+        emails = utils.get_setting('EMS_ACCOUNTING_EMAILS')
         if not emails:
             return
         from_email = utils.get_setting('DEFAULT_FROM_EMAIL')
@@ -290,7 +290,7 @@ class ContractHour(models.Model):
         super(ContractHour, self).save(*args, **kwargs)
         if ContractHour.PENDING_STATUS in (self.status, self._original['status']):
             domain = Site.objects.get_current().domain
-            method = 'https' if utils.get_setting('TIMEPIECE_EMAILS_USE_HTTPS')\
+            method = 'https' if utils.get_setting('EMS_EMAILS_USE_HTTPS')\
                 else 'http'
             url = self.contract.get_absolute_url()
             ctx = {
@@ -316,7 +316,7 @@ class ContractHour(models.Model):
         # pending status, we'll send an email about the change.
         if ContractHour.PENDING_STATUS in (self.status, self._original['status']):
             domain = Site.objects.get_current().domain
-            method = 'https' if utils.get_setting('TIMEPIECE_EMAILS_USE_HTTPS')\
+            method = 'https' if utils.get_setting('EMS_EMAILS_USE_HTTPS')\
                 else 'http'
             url = self.contract.get_absolute_url()
             ctx = {
@@ -343,7 +343,7 @@ class ContractAssignment(models.Model):
 
     class Meta:
         unique_together = (('contract', 'user'),)
-        db_table = 'timepiece_contractassignment'  # Using legacy table name.
+        db_table = 'ems_contractassignment'  # Using legacy table name.
 
     def __str__(self):
         return u'{0} / {1}'.format(self.user, self.contract)
@@ -423,7 +423,7 @@ class HourGroup(models.Model):
     objects = HourGroupManager()
 
     class Meta:
-        db_table = 'timepiece_hourgroup'  # Using legacy table name.
+        db_table = 'ems_hourgroup'  # Using legacy table name.
 
     def __str__(self):
         return self.name
@@ -451,7 +451,7 @@ class EntryGroup(models.Model):
     end = models.DateField()
 
     class Meta:
-        db_table = 'timepiece_entrygroup'  # Using legacy table name.
+        db_table = 'ems_entrygroup'  # Using legacy table name.
 
     def delete(self):
         Entry.no_join.filter(pk__in=self.entries.all()).update(status=Entry.APPROVED)

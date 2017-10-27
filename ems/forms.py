@@ -14,31 +14,31 @@ DATE_FORM_FORMAT = '%Y-%m-%d'
 INPUT_FORMATS = [DATE_FORM_FORMAT]
 
 
-class TimepieceSplitDateTimeWidget(forms.SplitDateTimeWidget):
+class EmsSplitDateTimeWidget(forms.SplitDateTimeWidget):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('date_format', DATE_FORM_FORMAT)
-        super(TimepieceSplitDateTimeWidget, self).__init__(*args, **kwargs)
+        super(EmsSplitDateTimeWidget, self).__init__(*args, **kwargs)
 
 
-class TimepieceSplitDateTimeField(forms.SplitDateTimeField):
-    widget = TimepieceSplitDateTimeWidget
+class EmsSplitDateTimeField(forms.SplitDateTimeField):
+    widget = EmsSplitDateTimeWidget
 
 
-class TimepieceDateInput(forms.DateInput):
+class EmsDateInput(forms.DateInput):
 
     def __init__(self, *args, **kwargs):
         kwargs['format'] = kwargs.get('format', DATE_FORM_FORMAT)
-        super(TimepieceDateInput, self).__init__(*args, **kwargs)
+        super(EmsDateInput, self).__init__(*args, **kwargs)
 
 
 class DateForm(forms.Form):
     from_date = forms.DateField(
         label='From', required=False, input_formats=INPUT_FORMATS,
-        widget=TimepieceDateInput())
+        widget=EmsDateInput())
     to_date = forms.DateField(
         label='To', required=False, input_formats=INPUT_FORMATS,
-        widget=TimepieceDateInput())
+        widget=EmsDateInput())
 
     def clean(self):
         from_date = self.cleaned_data.get('from_date', None)
@@ -99,7 +99,7 @@ class UserYearMonthForm(YearMonthForm):
 
     def __init__(self, *args, **kwargs):
         super(UserYearMonthForm, self).__init__(*args, **kwargs)
-        queryset = User.objects.exclude(timepiece_entries=None)\
+        queryset = User.objects.exclude(ems_entries=None)\
                                .order_by('first_name')
         self.fields['user'].queryset = queryset
 

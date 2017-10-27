@@ -2,7 +2,7 @@
 Employee Time Tracking
 ======================
 
-django-timepiece allows employees to keep track of their time on projects.
+django-ems allows employees to keep track of their time on projects.
 
 Entries
 =======

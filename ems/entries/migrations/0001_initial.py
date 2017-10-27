@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('name',),
-                'db_table': 'timepiece_activity',
+                'db_table': 'ems_activity',
                 'verbose_name_plural': 'activities',
             },
             bases=(models.Model,),
@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 ('activities', models.ManyToManyField(related_name='activity_group', to='entries.Activity')),
             ],
             options={
-                'db_table': 'timepiece_activitygroup',
+                'db_table': 'ems_activitygroup',
             },
             bases=(models.Model,),
         ),
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('-start_time',),
-                'db_table': 'timepiece_entry',
+                'db_table': 'ems_entry',
                 'verbose_name_plural': 'entries',
                 'permissions': (('can_clock_in', 'Can use Pendulum to clock in'), ('can_pause', 'Can pause and unpause log entries'), ('can_clock_out', 'Can use Pendulum to clock out'), ('view_entry_summary', 'Can view entry summary page'), ('view_payroll_summary', 'Can view payroll summary page'), ('approve_timesheet', 'Can approve a verified timesheet')),
             },
@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
                 ('slug', models.CharField(unique=True, max_length=255)),
             ],
             options={
-                'db_table': 'timepiece_location',
+                'db_table': 'ems_location',
             },
             bases=(models.Model,),
         ),
@@ -90,7 +90,7 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'db_table': 'timepiece_projecthours',
+                'db_table': 'ems_projecthours',
                 'verbose_name': 'project hours entry',
                 'verbose_name_plural': 'project hours entries',
             },
@@ -115,7 +115,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='entry',
             name='user',
-            field=models.ForeignKey(related_name='timepiece_entries', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(related_name='ems_entries', to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
     ]

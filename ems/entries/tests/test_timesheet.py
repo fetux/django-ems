@@ -1634,7 +1634,7 @@ class StatusTest(ViewTestMixin, TestCase):
             end_time=timezone.now(),
         )
         self.client.get(self.verify_url())
-        entries = self.user.timepiece_entries.all()
+        entries = self.user.ems_entries.all()
         self.assertEquals(entries[0].status, Entry.UNVERIFIED)
         self.client.post(self.verify_url(), {'do_action': 'Yes'})
         self.assertEquals(entries[0].status, Entry.VERIFIED)

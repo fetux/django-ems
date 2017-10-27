@@ -33,7 +33,7 @@ class Activity(models.Model):
         return self.name
 
     class Meta:
-        db_table = 'timepiece_activity'  # Using legacy table name
+        db_table = 'ems_activity'  # Using legacy table name
         ordering = ('name',)
         verbose_name_plural = 'activities'
 
@@ -45,7 +45,7 @@ class ActivityGroup(models.Model):
     activities = models.ManyToManyField(Activity, related_name='activity_group')
 
     class Meta:
-        db_table = 'timepiece_activitygroup'  # Using legacy table
+        db_table = 'ems_activitygroup'  # Using legacy table
 
     def __str__(self):
         return self.name
@@ -57,7 +57,7 @@ class Location(models.Model):
     slug = models.CharField(max_length=255, unique=True)
 
     class Meta:
-        db_table = 'timepiece_location'  # Using legacy table name
+        db_table = 'ems_location'  # Using legacy table name
 
     def __str__(self):
         return self.name
@@ -134,8 +134,8 @@ class EntryManager(models.Manager):
             qs = qs.annotate(billable=billable)
         else:
             qs = qs.extra({
-                'billable': 'timepiece_activity.billable AND '
-                            'timepiece_attribute.billable',
+                'billable': 'ems_activity.billable AND '
+                            'ems_attribute.billable',
             })
         return qs
 
@@ -150,7 +150,7 @@ class EntryWorkedManager(models.Manager):
 
     def get_queryset(self):
         qs = EntryQuerySet(self.model)
-        projects = utils.get_setting('TIMEPIECE_PAID_LEAVE_PROJECTS')
+        projects = utils.get_setting('EMS_PAID_LEAVE_PROJECTS')
         return qs.exclude(project__in=projects.values())
 
 
@@ -172,7 +172,7 @@ class Entry(models.Model):
         (NOT_INVOICED, 'Not Invoiced'),
     ))
 
-    user = models.ForeignKey(User, related_name='timepiece_entries')
+    user = models.ForeignKey(User, related_name='ems_entries')
     project = models.ForeignKey('crm.Project', related_name='entries')
     user_story = models.ForeignKey('crm.ProjectUserStory', related_name='project_hours', blank=True, null=True)
     task = models.ForeignKey('crm.ProjectTask', blank=True, null=True)
@@ -198,7 +198,7 @@ class Entry(models.Model):
     no_join = models.Manager()
 
     class Meta:
-        db_table = 'timepiece_entry'  # Using legacy table name
+        db_table = 'ems_entry'  # Using legacy table name
         ordering = ('-start_time',)
         verbose_name_plural = 'entries'
         permissions = (
@@ -245,7 +245,7 @@ class Entry(models.Model):
 
     def is_overlapping(self):
         if self.start_time and self.end_time:
-            entries = self.user.timepiece_entries.filter(
+            entries = self.user.ems_entries.filter(
                 Q(end_time__range=(self.start_time, self.end_time)) |
                 Q(start_time__range=(self.start_time, self.end_time)) |
                 Q(start_time__lte=self.start_time, end_time__gte=self.end_time)
@@ -281,7 +281,7 @@ class Entry(models.Model):
         else:
             end = start + relativedelta(seconds=1)
 
-        entries = self.user.timepiece_entries.filter(
+        entries = self.user.ems_entries.filter(
             Q(end_time__range=(start, end)) |
             Q(start_time__range=(start, end)) |
             Q(start_time__lte=start, end_time__gte=end))
@@ -426,7 +426,7 @@ class Entry(models.Model):
         """
         Pause all open entries
         """
-        entries = self.user.timepiece_entries.filter(end_time__isnull=True)
+        entries = self.user.ems_entries.filter(end_time__isnull=True)
         for entry in entries:
             entry.pause()
             entry.save()
@@ -480,14 +480,14 @@ class Entry(models.Model):
     def summary(user, date, end_date):
         """
         Returns a summary of hours worked in the given time frame, for this
-        user.  The setting TIMEPIECE_PAID_LEAVE_PROJECTS can be used to
+        user.  The setting EMS_PAID_LEAVE_PROJECTS can be used to
         separate out hours for paid leave that should not be included in the
         total worked (e.g., sick time, vacation time, etc.).  Those hours will
         be added to the summary separately using the dictionary key set in
-        TIMEPIECE_PAID_LEAVE_PROJECTS.
+        EMS_PAID_LEAVE_PROJECTS.
         """
-        projects = utils.get_setting('TIMEPIECE_PAID_LEAVE_PROJECTS')
-        entries = user.timepiece_entries.filter(
+        projects = utils.get_setting('EMS_PAID_LEAVE_PROJECTS')
+        entries = user.ems_entries.filter(
             end_time__gt=date, end_time__lt=end_date)
         data = {
             'billable': Decimal('0'), 'non_billable': Decimal('0'),
@@ -543,7 +543,7 @@ class ProjectHours(models.Model):
         return super(ProjectHours, self).save(*args, **kwargs)
 
     class Meta:
-        db_table = 'timepiece_projecthours'  # Using legacy table name
+        db_table = 'ems_projecthours'  # Using legacy table name
         verbose_name = 'project hours entry'
         verbose_name_plural = 'project hours entries'
         unique_together = ('week_start', 'project', 'user')

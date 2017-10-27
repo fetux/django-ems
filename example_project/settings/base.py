@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
 
-    # Timepiece apps must be listed before third-party apps in order
+    # Ems apps must be listed before third-party apps in order
     # for template overrides to work.
     'ems',
     'ems.contracts',
@@ -138,8 +138,8 @@ COMPRESS_PRECOMPILERS = [
 COMPRESS_ROOT = '%s/static/' % PROJECT_PATH
 
 
-# === Timepiece settings. === #
+# === Ems settings. === #
 
-TIMEPIECE_DEFAULT_LOCATION_SLUG = None
+EMS_DEFAULT_LOCATION_SLUG = None
 
-TIMEPIECE_PAID_LEAVE_PROJECTS = {}
+EMS_PAID_LEAVE_PROJECTS = {}

@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('sort_order',),
-                'db_table': 'timepiece_attribute',
+                'db_table': 'ems_attribute',
             },
             bases=(models.Model,),
         ),
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('name',),
-                'db_table': 'timepiece_business',
+                'db_table': 'ems_business',
                 'verbose_name_plural': 'Businesses',
                 'permissions': (('view_business', 'Can view businesses'),),
             },
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('name', 'status', 'type'),
-                'db_table': 'timepiece_project',
+                'db_table': 'ems_project',
                 'permissions': (('view_project', 'Can view project'), ('email_project_report', 'Can email project report'), ('view_project_time_sheet', 'Can view project time sheet'), ('export_project_time_sheet', 'Can export project time sheet'), ('generate_project_invoice', 'Can generate project invoice')),
             },
             bases=(models.Model,),
@@ -69,7 +69,7 @@ class Migration(migrations.Migration):
                 ('project', models.ForeignKey(related_name='project_relationships', to='crm.Project')),
             ],
             options={
-                'db_table': 'timepiece_projectrelationship',
+                'db_table': 'ems_projectrelationship',
             },
             bases=(models.Model,),
         ),
@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
                 ('slug', models.SlugField(max_length=255)),
             ],
             options={
-                'db_table': 'timepiece_relationshiptype',
+                'db_table': 'ems_relationshiptype',
             },
             bases=(models.Model,),
         ),
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
                 ('user', models.OneToOneField(related_name='profile', to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'db_table': 'timepiece_userprofile',
+                'db_table': 'ems_userprofile',
             },
             bases=(models.Model,),
         ),

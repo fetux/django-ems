@@ -11,14 +11,14 @@ from ems.crm.models import Project, TeamMember
 from ems.entries.models import Entry, Location, ProjectHours
 from ems.entries.lookups import ActivityLookup
 from ems.forms import (
-    INPUT_FORMATS, TimepieceSplitDateTimeField, TimepieceDateInput)
+    INPUT_FORMATS, EmsSplitDateTimeField, EmsDateInput)
 
 
 class ClockInForm(forms.ModelForm):
     active_comment = forms.CharField(
         label='Notes for the active entry', widget=forms.Textarea,
         required=False)
-    start_time = TimepieceSplitDateTimeField(required=False)
+    start_time = EmsSplitDateTimeField(required=False)
 
     class Meta:
         model = Entry
@@ -33,7 +33,7 @@ class ClockInForm(forms.ModelForm):
         self.active = kwargs.pop('active', None)
 
         initial = kwargs.get('initial', {})
-        default_loc = utils.get_setting('TIMEPIECE_DEFAULT_LOCATION_SLUG')
+        default_loc = utils.get_setting('EMS_DEFAULT_LOCATION_SLUG')
         if default_loc:
             try:
                 loc = Location.objects.get(slug=default_loc)
@@ -68,7 +68,7 @@ class ClockInForm(forms.ModelForm):
         start = self.cleaned_data.get('start_time')
         if not start:
             return start
-        active_entries = self.user.timepiece_entries.filter(
+        active_entries = self.user.ems_entries.filter(
             start_time__gte=start, end_time__isnull=True)
         for entry in active_entries:
             output = ('The start time is on or before the current entry: '
@@ -99,8 +99,8 @@ class ClockInForm(forms.ModelForm):
 
 
 class ClockOutForm(forms.ModelForm):
-    start_time = TimepieceSplitDateTimeField()
-    end_time = TimepieceSplitDateTimeField()
+    start_time = EmsSplitDateTimeField()
+    end_time = EmsSplitDateTimeField()
 
     class Meta:
         model = Entry
@@ -120,8 +120,8 @@ class ClockOutForm(forms.ModelForm):
 
 
 class AddUpdateEntryForm(forms.ModelForm):
-    start_time = TimepieceSplitDateTimeField()
-    end_time = TimepieceSplitDateTimeField()
+    start_time = EmsSplitDateTimeField()
+    end_time = EmsSplitDateTimeField()
 
     class Meta:
         model = Entry
@@ -165,7 +165,7 @@ class AddUpdateEntryForm(forms.ModelForm):
 
         month_start = utils.get_month_start(start_time)
         next_month = month_start + relativedelta(months=1)
-        entries = self.instance.user.timepiece_entries.filter(
+        entries = self.instance.user.ems_entries.filter(
             Q(status=Entry.APPROVED) | Q(status=Entry.INVOICED),
             start_time__gte=month_start,
             end_time__lt=next_month
@@ -199,7 +199,7 @@ class ProjectHoursForm(forms.ModelForm):
 class ProjectHoursSearchForm(forms.Form):
     week_start = forms.DateField(
         label='Week of', required=False,
-        input_formats=INPUT_FORMATS, widget=TimepieceDateInput())
+        input_formats=INPUT_FORMATS, widget=EmsDateInput())
 
     def clean_week_start(self):
         week_start = self.cleaned_data.get('week_start', None)
