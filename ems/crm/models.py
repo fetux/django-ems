@@ -203,7 +203,7 @@ class ProjectTeam(models.Model):
     project = models.ForeignKey(Project, blank=True, related_name='team')
     active = models.BooleanField(default=False)
     members = models.ManyToManyField(
-        TeamMember, blank=True, related_name='teams')
+        TeamMember, blank=True, related_name='members')
     rump_up_factor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     co_factor = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 

@@ -54,7 +54,7 @@ class ClockInForm(forms.ModelForm):
 
         self.fields['start_time'].initial = datetime.datetime.now()
         self.fields['project'].queryset = Project.trackable.filter(
-            teams__members__user=self.user)
+            team__members__user=self.user)
         if not self.active:
             self.fields.pop('active_comment')
         else:
