@@ -147,21 +147,21 @@ class AddUpdateEntryForm(forms.ModelForm):
         If we're not editing the active entry, ensure that this entry doesn't
         conflict with or come after the active entry.
         """
-        active = utils.get_active_entry(self.user)
+        # active = utils.get_active_entry(self.user)
         start_time = self.cleaned_data.get('start_time', None)
-        end_time = self.cleaned_data.get('end_time', None)
+        # end_time = self.cleaned_data.get('end_time', None)
 
-        if active and active.pk != self.instance.pk:
-            if (start_time and start_time > active.start_time) or \
-                    (end_time and end_time > active.start_time):
-                raise forms.ValidationError(
-                    'The start time or end time conflict with the active '
-                    'entry: {activity} on {project} starting at '
-                    '{start_time}.'.format(
-                        project=active.project,
-                        activity=active.activity,
-                        start_time=active.start_time.strftime('%H:%M:%S'),
-                    ))
+        # if active and active.pk != self.instance.pk:
+        #    if (start_time and start_time > active.start_time) or \
+        #            (end_time and end_time > active.start_time):
+        #        raise forms.ValidationError(
+        #            'The start time or end time conflict with the active '
+        #            'entry: {activity} on {project} starting at '
+        #            '{start_time}.'.format(
+        #                project=active.project,
+        #                activity=active.activity,
+        #                start_time=active.start_time.strftime('%H:%M:%S'),
+        #            ))
 
         month_start = utils.get_month_start(start_time)
         next_month = month_start + relativedelta(months=1)
